@@ -4,8 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import chroma from "chroma-js";
 
 export default function Generador() {
-  const [baseColor, setBaseColor] = useState("#3498db");
-  const [stripCount, setStripCount] = useState(6);
+  const [baseColor, setBaseColor] = useState("#282c34");
+  const [stripCount, setStripCount] = useState(4);
   const [stripWidth, setStripWidth] = useState(50);
   const [palette, setPalette] = useState<string[]>([]);
   const [copiedColor, setCopiedColor] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export default function Generador() {
 
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setPalette(newPalette);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       //
     }
@@ -42,7 +42,9 @@ export default function Generador() {
     canvas.width = stripWidth * stripCount;
     canvas.height = height;
 
-    palette.forEach((color, index) => {
+    // Dibujar cada franja (invertido para exportación)
+    const exportPalette = [...palette].reverse();
+    exportPalette.forEach((color, index) => {
       ctx.fillStyle = color;
       ctx.fillRect(index * stripWidth, 0, stripWidth, height);
     });
@@ -113,14 +115,14 @@ export default function Generador() {
                 </div>
                 <input
                   type="range"
-                  min="3"
+                  min="2"
                   max="20"
                   value={stripCount}
                   onChange={(e) => setStripCount(parseInt(e.target.value))}
                   className="w-full cursor-pointer accent-gray-400"
                 />
                 <div className="flex justify-between text-xs text-gray-500">
-                  <span>3</span>
+                  <span>2</span>
                   <span>20</span>
                 </div>
               </div>
@@ -147,7 +149,7 @@ export default function Generador() {
                 onClick={handleDownload}
                 className="w-full rounded-lg bg-gray-900 px-4 py-2.5 font-medium text-white transition-all hover:bg-gray-800 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
               >
-                ⬇️ Descargar JPEG
+                Descargar JPEG
               </button>
             </div>
           </div>
